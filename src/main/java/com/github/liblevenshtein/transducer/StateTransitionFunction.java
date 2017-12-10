@@ -1,12 +1,10 @@
 package com.github.liblevenshtein.transducer;
 
-import java.io.Serializable;
-import java.util.Comparator;
-
-import lombok.Setter;
-
 import com.github.liblevenshtein.transducer.factory.PositionTransitionFactory;
 import com.github.liblevenshtein.transducer.factory.StateFactory;
+
+import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * Transitions one state to another, given a set of inputs.  This function
@@ -15,7 +13,6 @@ import com.github.liblevenshtein.transducer.factory.StateFactory;
  * @author Dylon Edwards
  * @since 2.1.0
  */
-@Setter
 public class StateTransitionFunction implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -56,6 +53,41 @@ public class StateTransitionFunction implements Serializable {
    * Length of the query term.
    */
   private int queryLength;
+
+  public StateTransitionFunction comparator(Comparator<Position> comparator) {
+    this.comparator = comparator;
+    return this;
+  }
+
+  public StateTransitionFunction stateFactory(StateFactory stateFactory) {
+    this.stateFactory = stateFactory;
+    return this;
+  }
+
+  public StateTransitionFunction transitionFactory(PositionTransitionFactory transitionFactory) {
+    this.transitionFactory = transitionFactory;
+    return this;
+  }
+
+  public StateTransitionFunction merge(MergeFunction merge) {
+    this.merge = merge;
+    return this;
+  }
+
+  public StateTransitionFunction unsubsume(UnsubsumeFunction unsubsume) {
+    this.unsubsume = unsubsume;
+    return this;
+  }
+
+  public StateTransitionFunction maxDistance(int maxDistance) {
+    this.maxDistance = maxDistance;
+    return this;
+  }
+
+  public StateTransitionFunction queryLength(int queryLength) {
+    this.queryLength = queryLength;
+    return this;
+  }
 
   /**
    * Returns the state consisting of all the possible position-transitions from

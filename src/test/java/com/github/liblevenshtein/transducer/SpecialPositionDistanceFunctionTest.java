@@ -2,8 +2,6 @@ package com.github.liblevenshtein.transducer;
 
 import org.testng.annotations.Test;
 
-import lombok.val;
-
 import com.github.liblevenshtein.transducer.factory.PositionFactory;
 import com.github.liblevenshtein.transducer.factory.StateFactory;
 
@@ -13,8 +11,8 @@ public class SpecialPositionDistanceFunctionTest {
 
   @Test
   public void testAt() {
-    val stateFactory = new StateFactory();
-    val positionFactory = new PositionFactory();
+    StateFactory stateFactory = new StateFactory();
+    PositionFactory positionFactory = new PositionFactory();
 
     final State state = stateFactory.build(
         positionFactory.build(2, 3, false),

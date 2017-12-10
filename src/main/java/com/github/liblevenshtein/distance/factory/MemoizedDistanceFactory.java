@@ -1,14 +1,12 @@
 package com.github.liblevenshtein.distance.factory;
 
-import java.io.Serializable;
-
-import lombok.NonNull;
-
 import com.github.liblevenshtein.distance.IDistance;
 import com.github.liblevenshtein.distance.MemoizedMergeAndSplit;
 import com.github.liblevenshtein.distance.MemoizedStandard;
 import com.github.liblevenshtein.distance.MemoizedTransposition;
 import com.github.liblevenshtein.transducer.Algorithm;
+
+import java.io.Serializable;
 
 /**
  * Builds memoized instances of Levenshtein distance metrics.
@@ -41,7 +39,7 @@ public class MemoizedDistanceFactory implements IDistanceFactory<String>, Serial
    * {@inheritDoc}
    */
   @Override
-  public IDistance<String> build(@NonNull final Algorithm algorithm) {
+  public IDistance<String> build(final Algorithm algorithm) {
     switch (algorithm) {
       case STANDARD:
         if (null == standard) {

@@ -1,14 +1,11 @@
 package com.github.liblevenshtein.transducer;
 
+import com.github.liblevenshtein.collection.AbstractIterator;
+import it.unimi.dsi.fastutil.chars.CharIterator;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
-
-import it.unimi.dsi.fastutil.chars.CharIterator;
-
-import lombok.NonNull;
-
-import com.github.liblevenshtein.collection.AbstractIterator;
 
 /**
  * <p>
@@ -68,7 +65,6 @@ public class LazyTransducerCollection<DictionaryNode, CandidateType>
   /**
    * Query term whose spelling should be corrected.
    */
-  @NonNull
   private final String term;
 
   /**
@@ -79,7 +75,6 @@ public class LazyTransducerCollection<DictionaryNode, CandidateType>
   /**
    * Attributes required for this transducer to search the dictionary.
    */
-  @NonNull
   private final TransducerAttributes<DictionaryNode, CandidateType> attributes;
 
   /**
@@ -128,9 +123,9 @@ public class LazyTransducerCollection<DictionaryNode, CandidateType>
    *   dictionary.
    */
   public LazyTransducerCollection(
-      @NonNull final String term,
+      final String term,
       final int maxDistance,
-      @NonNull final TransducerAttributes<DictionaryNode, CandidateType> attributes) {
+      final TransducerAttributes<DictionaryNode, CandidateType> attributes) {
 
     this.term = term;
     this.maxDistance = maxDistance;

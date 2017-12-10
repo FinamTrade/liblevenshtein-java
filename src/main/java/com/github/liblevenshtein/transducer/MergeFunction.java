@@ -2,16 +2,12 @@ package com.github.liblevenshtein.transducer;
 
 import java.io.Serializable;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 /**
  * Merges one state into another, according to rules specific to the Levenshtein
  * algorithm.
  * @author Dylon Edwards
  * @since 2.1.0
  */
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class MergeFunction implements Serializable {
 
   private static final long serialVersionUID = 1L;

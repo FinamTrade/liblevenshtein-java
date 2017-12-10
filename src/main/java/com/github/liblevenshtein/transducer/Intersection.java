@@ -1,9 +1,7 @@
 package com.github.liblevenshtein.transducer;
 
 import java.io.Serializable;
-
-import lombok.AllArgsConstructor;
-import lombok.Value;
+import java.util.Objects;
 
 /**
  * State along the intersection of the dictionary automaton and the Levenshtein
@@ -12,8 +10,6 @@ import lombok.Value;
  * @author Dylon Edwards
  * @since 2.1.0
  */
-@Value
-@AllArgsConstructor
 public class Intersection<DictionaryNode> implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -52,6 +48,29 @@ public class Intersection<DictionaryNode> implements Serializable {
     this(null, '\0', dictionaryRoot, initialState);
   }
 
+  public Intersection(Intersection<DictionaryNode> prevIntersection, char label, DictionaryNode dictionaryNode, State levenshteinState) {
+    this.prevIntersection = prevIntersection;
+    this.label = label;
+    this.dictionaryNode = dictionaryNode;
+    this.levenshteinState = levenshteinState;
+  }
+
+  public Intersection<DictionaryNode> prevIntersection() {
+    return prevIntersection;
+  }
+
+  public char label() {
+    return label;
+  }
+
+  public DictionaryNode dictionaryNode() {
+    return dictionaryNode;
+  }
+
+  public State levenshteinState() {
+    return levenshteinState;
+  }
+
   /**
    * Spelling candidate from the dictionary automaton, represented as the prefix
    * of a term in the dictionary constructed by traversing from its root to
@@ -79,5 +98,22 @@ public class Intersection<DictionaryNode> implements Serializable {
     }
 
     return buffer;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Intersection<?> that = (Intersection<?>) o;
+    return label == that.label &&
+            Objects.equals(prevIntersection, that.prevIntersection) &&
+            Objects.equals(dictionaryNode, that.dictionaryNode) &&
+            Objects.equals(levenshteinState, that.levenshteinState);
+  }
+
+  @Override
+  public int hashCode() {
+
+    return Objects.hash(prevIntersection, label, dictionaryNode, levenshteinState);
   }
 }

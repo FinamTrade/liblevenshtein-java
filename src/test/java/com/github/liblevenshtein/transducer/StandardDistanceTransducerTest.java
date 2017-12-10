@@ -1,22 +1,17 @@
 package com.github.liblevenshtein.transducer;
 
-import java.net.URL;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
+import com.github.liblevenshtein.ReadLines;
+import com.github.liblevenshtein.collection.dictionary.SortedDawg;
+import com.github.liblevenshtein.distance.MemoizedStandard;
+import com.github.liblevenshtein.transducer.factory.TransducerBuilder;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import lombok.val;
-
-import com.github.liblevenshtein.collection.dictionary.SortedDawg;
-import com.github.liblevenshtein.distance.MemoizedStandard;
-import com.github.liblevenshtein.serialization.ProtobufSerializer;
-import com.github.liblevenshtein.serialization.Serializer;
-import com.github.liblevenshtein.transducer.factory.TransducerBuilder;
+import java.net.URL;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import static com.github.liblevenshtein.assertion.CandidateAssertions.assertThat;
 import static com.github.liblevenshtein.assertion.SetAssertions.assertThat;
@@ -35,10 +30,11 @@ public class StandardDistanceTransducerTest {
   @BeforeTest
   public void setUp() throws Exception {
     final URL dictionaryUrl =
-      getClass().getResource("/programming-languages.protobuf.bytes");
-    final Serializer serializer = new ProtobufSerializer();
-    final SortedDawg dictionary =
-      serializer.deserialize(SortedDawg.class, dictionaryUrl);
+      getClass().getResource("/programming-languages.txt");
+    final List<String> words = ReadLines.fromURL(dictionaryUrl);
+    final SortedDawg dictionary = new SortedDawg();
+    dictionary.addAll(words);
+    dictionary.finish();
 
     this.transducer = new TransducerBuilder()
       .defaultMaxDistance(MAX_DISTANCE)
@@ -88,7 +84,7 @@ public class StandardDistanceTransducerTest {
     final Iterable<Candidate> actualCandidates = transducer.transduce(QUERY_TERM);
     final Iterator<Candidate> actualIter = actualCandidates.iterator();
 
-    val distance = new MemoizedStandard();
+    MemoizedStandard distance = new MemoizedStandard();
 
     while (actualIter.hasNext()) {
       final Candidate actualCandidate = actualIter.next();

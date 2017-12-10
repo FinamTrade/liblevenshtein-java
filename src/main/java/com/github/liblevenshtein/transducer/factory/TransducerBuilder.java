@@ -4,10 +4,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 
-import lombok.NonNull;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-
 import com.github.liblevenshtein.collection.dictionary.Dawg;
 import com.github.liblevenshtein.collection.dictionary.DawgNode;
 import com.github.liblevenshtein.collection.dictionary.factory.DawgFactory;
@@ -22,18 +18,19 @@ import com.github.liblevenshtein.transducer.SubsumesFunction;
 import com.github.liblevenshtein.transducer.Transducer;
 import com.github.liblevenshtein.transducer.TransducerAttributes;
 import com.github.liblevenshtein.transducer.UnsubsumeFunction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Fluently-builds Levenshtein transducers.
  * @author Dylon Edwards
  * @since 2.1.0
  */
-@Slf4j
-@Setter
 @SuppressWarnings("checkstyle:classdataabstractioncoupling")
 public class TransducerBuilder implements Serializable {
 
   private static final long serialVersionUID = 1L;
+  private static final Logger log = LoggerFactory.getLogger(TransducerBuilder.class);
 
   /**
    * Builds DAWG collections from dictionaries.
@@ -43,36 +40,55 @@ public class TransducerBuilder implements Serializable {
   /**
    * Dictionary automaton for seeking spelling candidates.
    */
-  @Setter
   @SuppressWarnings("unchecked")
   private Collection<String> dictionary = Collections.EMPTY_LIST;
 
   /**
    * Whether {@link #dictionary} is sorted.
    */
-  @Setter
   private boolean isSorted = false;
 
   /**
    * Desired Levenshtein algorithm for searching.
    */
-  @Setter
-  @NonNull
   private Algorithm algorithm = Algorithm.STANDARD;
 
   /**
    * Default maximum number of errors tolerated between each spelling candidate
    * and the query term.
    */
-  @Setter
   private int defaultMaxDistance = 2;
 
   /**
    * Whether the distances between each spelling candidate and the query term
    * should be included in the collections of spelling candidates.
    */
-  @Setter
   private boolean includeDistance = true;
+
+  public TransducerBuilder dictionary(Collection<String> dictionary) {
+    this.dictionary = dictionary;
+    return this;
+  }
+
+  public TransducerBuilder sorted(boolean sorted) {
+    isSorted = sorted;
+    return this;
+  }
+
+  public TransducerBuilder algorithm(Algorithm algorithm) {
+    this.algorithm = algorithm;
+    return this;
+  }
+
+  public TransducerBuilder defaultMaxDistance(int defaultMaxDistance) {
+    this.defaultMaxDistance = defaultMaxDistance;
+    return this;
+  }
+
+  public TransducerBuilder includeDistance(boolean includeDistance) {
+    this.includeDistance = includeDistance;
+    return this;
+  }
 
   /**
    * Specifies the collection of dictionary terms for the dictionary automaton.
@@ -83,7 +99,7 @@ public class TransducerBuilder implements Serializable {
    * @return This {@link TransducerBuilder} or an equivalent one, for fluency.
    */
   public TransducerBuilder dictionary(
-      @NonNull final Collection<String> dictionary,
+      final Collection<String> dictionary,
       final boolean isSorted) {
     this.dictionary = dictionary;
     this.isSorted = isSorted;
@@ -120,7 +136,7 @@ public class TransducerBuilder implements Serializable {
     final State initialState = stateFactory.build(positionFactory.build(0, 0));
 
     final TransducerAttributes<DawgNode, CandidateType> attributes =
-      TransducerAttributes.<DawgNode, CandidateType>builder()
+      new TransducerAttributes()
         .maxDistance(defaultMaxDistance)
         .stateTransitionFactory(stateTransitionFactory)
         .candidateFactory(candidateFactory())
@@ -131,8 +147,7 @@ public class TransducerBuilder implements Serializable {
         .initialState(initialState)
         .dictionary(dictionary)
         .algorithm(algorithm)
-        .includeDistance(includeDistance)
-        .build();
+        .includeDistance(includeDistance);
 
     return new Transducer<>(attributes);
   }

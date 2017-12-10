@@ -2,8 +2,7 @@ package com.github.liblevenshtein.transducer;
 
 import java.io.Serializable;
 import java.util.Comparator;
-
-import lombok.Data;
+import java.util.Objects;
 
 /**
  * Levenshtein state that is used by all algorithms.  The algorithm-specific
@@ -12,7 +11,6 @@ import lombok.Data;
  * @author Dylon Edwards
  * @since 2.1.0
  */
-@Data
 public class State implements Iterable<Position>, Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -32,6 +30,10 @@ public class State implements Iterable<Position>, Serializable {
     head.next(this.head);
     this.head = head;
     return this;
+  }
+
+  public Position head() {
+    return head;
   }
 
   /**
@@ -187,5 +189,18 @@ public class State implements Iterable<Position>, Serializable {
   public State sort(final Comparator<Position> comparator) {
     head = mergeSort(comparator, head);
     return this;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    State positions = (State) o;
+    return Objects.equals(head, positions.head);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(head);
   }
 }

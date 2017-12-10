@@ -2,8 +2,6 @@ package com.github.liblevenshtein.transducer;
 
 import java.io.Serializable;
 
-import lombok.Setter;
-
 /**
  * Defines methods to remove positions from a Levenshtein state that are
  * subsumed by other positions in that state.
@@ -17,8 +15,9 @@ public abstract class UnsubsumeFunction implements Serializable {
   /**
    * Determines whether one position subsumes another.
    */
-  @Setter
   protected SubsumesFunction subsumes;
+
+  public abstract UnsubsumeFunction subsumes(SubsumesFunction subsumes);
 
   /**
    * Removes all the positions from {@code state} that are subsumed by other
@@ -36,6 +35,11 @@ public abstract class UnsubsumeFunction implements Serializable {
   public static class ForStandardPositions extends UnsubsumeFunction {
 
     private static final long serialVersionUID = 1L;
+
+    public ForStandardPositions subsumes(SubsumesFunction subsumes) {
+      this.subsumes = subsumes;
+      return this;
+    }
 
     /**
      * {@inheritDoc}
@@ -76,6 +80,11 @@ public abstract class UnsubsumeFunction implements Serializable {
   public static class ForSpecialPositions extends UnsubsumeFunction {
 
     private static final long serialVersionUID = 1L;
+
+    public ForSpecialPositions subsumes(SubsumesFunction subsumes) {
+      this.subsumes = subsumes;
+      return this;
+    }
 
     /**
      * {@inheritDoc}

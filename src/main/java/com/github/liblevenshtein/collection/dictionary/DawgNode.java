@@ -1,18 +1,11 @@
 package com.github.liblevenshtein.collection.dictionary;
 
-import java.io.Serializable;
-
 import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
 import it.unimi.dsi.fastutil.chars.Char2ObjectRBTreeMap;
 import it.unimi.dsi.fastutil.chars.CharIterator;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NonNull;
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Non-final element of a DAWG structure (Directed Acyclic Word Graph).
@@ -20,8 +13,6 @@ import lombok.NonNull;
  * @author Dylon Edwards
  * @since 2.1.0
  */
-@Data
-@AllArgsConstructor
 public class DawgNode implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -29,7 +20,6 @@ public class DawgNode implements Serializable {
   /**
    * Outgoing edges of this node.
    */
-  @NonNull
   protected final Char2ObjectMap<DawgNode> edges;
 
   /**
@@ -37,6 +27,10 @@ public class DawgNode implements Serializable {
    */
   public DawgNode() {
     this(new Char2ObjectRBTreeMap<>());
+  }
+
+  public DawgNode(Char2ObjectMap<DawgNode> edges) {
+    this.edges = edges;
   }
 
   /**
@@ -101,10 +95,7 @@ public class DawgNode implements Serializable {
 
     final DawgNode other = (DawgNode) object;
 
-    return new EqualsBuilder()
-      .append(edges, other.edges)
-      .append(isFinal(), other.isFinal())
-      .isEquals();
+    return Objects.equals(edges, other.edges) && isFinal() == other.isFinal();
   }
 
   /**
@@ -112,10 +103,7 @@ public class DawgNode implements Serializable {
    */
   @Override
   public int hashCode() {
-    return new HashCodeBuilder(419, 181)
-      .append(edges)
-      .append(isFinal())
-      .toHashCode();
+    return Objects.hash(edges.hashCode(), isFinal());
   }
 
   /**
@@ -123,9 +111,6 @@ public class DawgNode implements Serializable {
    */
   @Override
   public String toString() {
-    return new ToStringBuilder(this)
-      .append("edges", edges)
-      .append("isFinal", isFinal())
-      .toString();
+    return "edges: " + edges.toString() + "; isFinal: " + isFinal();
   }
 }

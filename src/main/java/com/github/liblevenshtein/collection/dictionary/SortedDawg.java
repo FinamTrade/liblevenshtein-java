@@ -1,12 +1,6 @@
 package com.github.liblevenshtein.collection.dictionary;
 
-import java.util.ArrayDeque;
-import java.util.Collection;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.Map;
-
-import lombok.NonNull;
+import java.util.*;
 
 /**
  * <p>
@@ -68,7 +62,7 @@ public class SortedDawg extends Dawg {
    *   because the behavior of the current DAWG implementation is unstable if it
    *   is not.
    */
-  public SortedDawg(@NonNull final Collection<String> terms) {
+  public SortedDawg(final Collection<String> terms) {
     this();
     if (!addAll(terms)) {
       throw new IllegalStateException("Failed to add all terms");
@@ -83,7 +77,7 @@ public class SortedDawg extends Dawg {
    */
   public SortedDawg(
       final int size,
-      @NonNull final DawgNode root) {
+      final DawgNode root) {
     super(root, size);
   }
 
@@ -91,7 +85,7 @@ public class SortedDawg extends Dawg {
    * {@inheritDoc}
    */
   @Override
-  public synchronized boolean add(@NonNull final String term) {
+  public synchronized boolean add(final String term) {
     if (term.compareTo(previousTerm) < 0) {
       throw new IllegalArgumentException(
           "Due to caveats with the current DAWG implementation, terms must be "

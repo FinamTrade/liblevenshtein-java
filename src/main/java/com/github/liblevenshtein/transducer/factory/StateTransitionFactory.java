@@ -1,21 +1,18 @@
 package com.github.liblevenshtein.transducer.factory;
 
-import java.io.Serializable;
-import java.util.Comparator;
-
-import lombok.Setter;
-
 import com.github.liblevenshtein.transducer.MergeFunction;
 import com.github.liblevenshtein.transducer.Position;
 import com.github.liblevenshtein.transducer.StateTransitionFunction;
 import com.github.liblevenshtein.transducer.UnsubsumeFunction;
+
+import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * Builds (and recycles) instances of {@link StateTransitionFunction}.
  * @author Dylon Edwards
  * @since 2.1.0
  */
-@Setter
 public class StateTransitionFactory implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -44,6 +41,31 @@ public class StateTransitionFactory implements Serializable {
    * Removes subsumed positions from Levenshtein states.
    */
   private UnsubsumeFunction unsubsume;
+
+  public StateTransitionFactory comparator(Comparator<Position> comparator) {
+    this.comparator = comparator;
+    return this;
+  }
+
+  public StateTransitionFactory stateFactory(StateFactory stateFactory) {
+    this.stateFactory = stateFactory;
+    return this;
+  }
+
+  public StateTransitionFactory positionTransitionFactory(PositionTransitionFactory positionTransitionFactory) {
+    this.positionTransitionFactory = positionTransitionFactory;
+    return this;
+  }
+
+  public StateTransitionFactory merge(MergeFunction merge) {
+    this.merge = merge;
+    return this;
+  }
+
+  public StateTransitionFactory unsubsume(UnsubsumeFunction unsubsume) {
+    this.unsubsume = unsubsume;
+    return this;
+  }
 
   /**
    * Builds a new state-transition function that only considers spelling
