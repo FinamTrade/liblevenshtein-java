@@ -1,14 +1,13 @@
 package com.github.liblevenshtein.collection.dictionary;
 
+import com.github.liblevenshtein.collection.FastUtils;
 import it.unimi.dsi.fastutil.chars.AbstractCharIterator;
-import it.unimi.dsi.fastutil.chars.Char2ObjectRBTreeMap;
 import it.unimi.dsi.fastutil.chars.CharIterator;
 
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
-import java.util.TreeMap;
 
 /**
  * Non-final element of a DAWG structure (Directed Acyclic Word Graph).
@@ -17,15 +16,7 @@ import java.util.TreeMap;
  * @since 2.1.0
  */
 public class DawgNode implements Serializable {
-  private static final String USE_FAST_MAPS = "com.github.liblevenshtein.use_fast_maps";
-
   private static final long serialVersionUID = 1L;
-  private static final boolean shouldUseFastMaps;
-
-  static {
-    String s = System.getProperty(USE_FAST_MAPS);
-    shouldUseFastMaps = s == null || (s = s.trim()).isEmpty() || Boolean.valueOf(s);
-  }
 
   /**
    * Outgoing edges of this node.
@@ -36,11 +27,7 @@ public class DawgNode implements Serializable {
    * Constructs a non-final {@link DawgNode}.
    */
   public DawgNode() {
-    this(newMap());
-  }
-
-  private static Map<Character,DawgNode> newMap() {
-    return shouldUseFastMaps ? new Char2ObjectRBTreeMap<>() : new TreeMap<>();
+    this(FastUtils.newChar2ObjectRBTreeMap());
   }
 
   public DawgNode(Map<Character,DawgNode> edges) {

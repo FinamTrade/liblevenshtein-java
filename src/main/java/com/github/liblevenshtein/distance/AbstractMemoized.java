@@ -1,10 +1,10 @@
 package com.github.liblevenshtein.distance;
 
+import com.github.liblevenshtein.collection.FastUtils;
 import com.github.liblevenshtein.collection.SymmetricImmutablePair;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Common, initialization logic for memoized, distance metrics.
@@ -19,14 +19,13 @@ public abstract class AbstractMemoized implements IDistance<String>, Serializabl
   private static final long serialVersionUID = 1L;
 
   /** Memoizes the distance pairs of terms. */
-  protected final Object2IntMap<SymmetricImmutablePair<String>> memo;
+  protected final Map<SymmetricImmutablePair<String>,Integer> memo;
 
   /**
    * Initializes the memoization map, etc.
    */
   public AbstractMemoized() {
-    memo = new Object2IntOpenHashMap<>();
-    memo.defaultReturnValue(DEFAULT_RETURN_VALUE);
+    memo = FastUtils.newObject2IntHashMap();
   }
 
   /**
