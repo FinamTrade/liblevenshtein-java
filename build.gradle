@@ -15,6 +15,7 @@ jmh {
   warmupIterations = 10
   iterations = 10
   fork = 1
+  jvmArgs = ["-Dcom.github.liblevenshtein.use_fast_maps=false"]
 }
 
 group = 'com.github.universal-automata'

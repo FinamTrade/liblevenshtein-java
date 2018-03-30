@@ -1,11 +1,14 @@
 package com.github.liblevenshtein.collection.dictionary;
 
-import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
+import it.unimi.dsi.fastutil.chars.AbstractCharIterator;
 import it.unimi.dsi.fastutil.chars.Char2ObjectRBTreeMap;
 import it.unimi.dsi.fastutil.chars.CharIterator;
 
 import java.io.Serializable;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
+import java.util.TreeMap;
 
 /**
  * Non-final element of a DAWG structure (Directed Acyclic Word Graph).
@@ -14,22 +17,33 @@ import java.util.Objects;
  * @since 2.1.0
  */
 public class DawgNode implements Serializable {
+  private static final String USE_FAST_MAPS = "com.github.liblevenshtein.use_fast_maps";
 
   private static final long serialVersionUID = 1L;
+  private static final boolean shouldUseFastMaps;
+
+  static {
+    String s = System.getProperty(USE_FAST_MAPS);
+    shouldUseFastMaps = s == null || (s = s.trim()).isEmpty() || Boolean.valueOf(s);
+  }
 
   /**
    * Outgoing edges of this node.
    */
-  protected final Char2ObjectMap<DawgNode> edges;
+  protected final Map<Character,DawgNode> edges;
 
   /**
    * Constructs a non-final {@link DawgNode}.
    */
   public DawgNode() {
-    this(new Char2ObjectRBTreeMap<>());
+    this(newMap());
   }
 
-  public DawgNode(Char2ObjectMap<DawgNode> edges) {
+  private static Map<Character,DawgNode> newMap() {
+    return shouldUseFastMaps ? new Char2ObjectRBTreeMap<>() : new TreeMap<>();
+  }
+
+  public DawgNode(Map<Character,DawgNode> edges) {
     this.edges = edges;
   }
 
@@ -46,7 +60,30 @@ public class DawgNode implements Serializable {
    * @return Labels of the outgoing edges of this node.
    */
   public CharIterator labels() {
-    return edges.keySet().iterator();
+    Iterator<Character> iter = edges.keySet().iterator();
+    if (iter instanceof CharIterator) {
+      return (CharIterator) iter;
+    } else {
+      return new AbstractCharIterator() {
+        final Iterator<Map.Entry<Character,DawgNode>> i = edges.entrySet().iterator();
+
+        @Override
+        public boolean hasNext() {
+          return i.hasNext();
+        }
+
+        @Override
+        public char nextChar() {
+          // the only difference with CharIterator is unboxing
+          return i.next().getKey();
+        }
+
+        @Override
+        public void remove() {
+          i.remove();
+        }
+      };
+    }
   }
 
   /**
