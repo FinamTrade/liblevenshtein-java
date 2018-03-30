@@ -1,10 +1,12 @@
 package com.github.liblevenshtein.collection.dictionary;
 
-import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
-import it.unimi.dsi.fastutil.chars.Char2ObjectRBTreeMap;
+import com.github.liblevenshtein.collection.FastUtils;
+import it.unimi.dsi.fastutil.chars.AbstractCharIterator;
 import it.unimi.dsi.fastutil.chars.CharIterator;
 
 import java.io.Serializable;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -14,22 +16,21 @@ import java.util.Objects;
  * @since 2.1.0
  */
 public class DawgNode implements Serializable {
-
   private static final long serialVersionUID = 1L;
 
   /**
    * Outgoing edges of this node.
    */
-  protected final Char2ObjectMap<DawgNode> edges;
+  protected final Map<Character,DawgNode> edges;
 
   /**
    * Constructs a non-final {@link DawgNode}.
    */
   public DawgNode() {
-    this(new Char2ObjectRBTreeMap<>());
+    this(FastUtils.newChar2ObjectRBTreeMap());
   }
 
-  public DawgNode(Char2ObjectMap<DawgNode> edges) {
+  public DawgNode(Map<Character,DawgNode> edges) {
     this.edges = edges;
   }
 
@@ -46,7 +47,30 @@ public class DawgNode implements Serializable {
    * @return Labels of the outgoing edges of this node.
    */
   public CharIterator labels() {
-    return edges.keySet().iterator();
+    Iterator<Character> iter = edges.keySet().iterator();
+    if (iter instanceof CharIterator) {
+      return (CharIterator) iter;
+    } else {
+      return new AbstractCharIterator() {
+        final Iterator<Map.Entry<Character,DawgNode>> i = edges.entrySet().iterator();
+
+        @Override
+        public boolean hasNext() {
+          return i.hasNext();
+        }
+
+        @Override
+        public char nextChar() {
+          // the only difference with CharIterator is unboxing
+          return i.next().getKey();
+        }
+
+        @Override
+        public void remove() {
+          i.remove();
+        }
+      };
+    }
   }
 
   /**
