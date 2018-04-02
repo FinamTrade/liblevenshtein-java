@@ -2,9 +2,6 @@ package com.github.liblevenshtein.transducer;
 
 import java.io.Serializable;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
 /**
  * {@link SpecialPosition}s are used to maintain a sorted, linked-list of
  * positions within {@link com.github.liblevenshtein.transducer.State}s.  They
@@ -13,8 +10,6 @@ import lombok.ToString;
  * @author Dylon Edwards
  * @since 3.0.0
  */
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 public class SpecialPosition extends Position implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -35,5 +30,20 @@ public class SpecialPosition extends Position implements Serializable {
   @Override
   public boolean isSpecial() {
     return true;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    return super.equals(o);
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return super.toString();
   }
 }

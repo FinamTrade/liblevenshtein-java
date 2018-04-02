@@ -1,14 +1,10 @@
 package com.github.liblevenshtein.transducer;
 
+import com.github.liblevenshtein.collection.AbstractIterator;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
-
-import it.unimi.dsi.fastutil.chars.CharIterator;
-
-import lombok.NonNull;
-
-import com.github.liblevenshtein.collection.AbstractIterator;
 
 /**
  * <p>
@@ -68,7 +64,6 @@ public class LazyTransducerCollection<DictionaryNode, CandidateType>
   /**
    * Query term whose spelling should be corrected.
    */
-  @NonNull
   private final String term;
 
   /**
@@ -79,7 +74,6 @@ public class LazyTransducerCollection<DictionaryNode, CandidateType>
   /**
    * Attributes required for this transducer to search the dictionary.
    */
-  @NonNull
   private final TransducerAttributes<DictionaryNode, CandidateType> attributes;
 
   /**
@@ -111,7 +105,7 @@ public class LazyTransducerCollection<DictionaryNode, CandidateType>
   /**
    * Labels of the outgoing transitions for a dictionary state.
    */
-  private CharIterator labels = null;
+  private Iterator<Character> labels = null;
 
   /**
    * Current intersection between the dictionary and Levenshtein automata.
@@ -128,9 +122,9 @@ public class LazyTransducerCollection<DictionaryNode, CandidateType>
    *   dictionary.
    */
   public LazyTransducerCollection(
-      @NonNull final String term,
+      final String term,
       final int maxDistance,
-      @NonNull final TransducerAttributes<DictionaryNode, CandidateType> attributes) {
+      final TransducerAttributes<DictionaryNode, CandidateType> attributes) {
 
     this.term = term;
     this.maxDistance = maxDistance;
@@ -179,7 +173,7 @@ public class LazyTransducerCollection<DictionaryNode, CandidateType>
       if (null != labels && labels.hasNext()) {
         final DictionaryNode dictionaryNode = intersection.dictionaryNode();
         final State levenshteinState = intersection.levenshteinState();
-        final char label = labels.nextChar();
+        final char label = labels.next();
         final DictionaryNode nextDictionaryNode =
           attributes.dictionaryTransition().of(dictionaryNode, label);
         final boolean[] characteristicVector =

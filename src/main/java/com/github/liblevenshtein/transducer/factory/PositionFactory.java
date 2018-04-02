@@ -1,18 +1,15 @@
 package com.github.liblevenshtein.transducer.factory;
 
-import java.io.Serializable;
-
-import lombok.NoArgsConstructor;
-
 import com.github.liblevenshtein.transducer.Position;
 import com.github.liblevenshtein.transducer.SpecialPosition;
+
+import java.io.Serializable;
 
 /**
  * Builds position vectors for the given algorithm.
  * @author Dylon Edwards
  * @since 2.1.0
  */
-@NoArgsConstructor
 public class PositionFactory implements Serializable {
 
   private static final long serialVersionUID = 1L;

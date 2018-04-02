@@ -1,26 +1,18 @@
 package com.github.liblevenshtein.collection.dictionary.factory;
 
+import com.github.liblevenshtein.collection.dictionary.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
-
-import com.github.liblevenshtein.collection.dictionary.Dawg;
-import com.github.liblevenshtein.collection.dictionary.DawgNode;
-import com.github.liblevenshtein.collection.dictionary.IFinalFunction;
-import com.github.liblevenshtein.collection.dictionary.ITransitionFunction;
-import com.github.liblevenshtein.collection.dictionary.SortedDawg;
-
 /**
  * Constructs DAWG instances.
  * @author Dylon Edwards
  * @since 2.1.0
  */
-@Slf4j
 public class DawgFactory implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -30,7 +22,7 @@ public class DawgFactory implements Serializable {
    * @param terms Terms to insert into the DAWG
    * @return A new DAWG, containing the terms.
    */
-  public Dawg build(@NonNull final Collection<String> terms) {
+  public Dawg build(final Collection<String> terms) {
     return build(terms, false);
   }
 
@@ -41,7 +33,7 @@ public class DawgFactory implements Serializable {
    * @return A new DAWG, containing the terms.
    */
   public Dawg build(
-      @NonNull final Collection<String> terms,
+      final Collection<String> terms,
       final boolean isSorted) {
 
     if (terms instanceof SortedDawg) {
@@ -64,7 +56,7 @@ public class DawgFactory implements Serializable {
    * @param dictionary Dawg whose final function should be returned
    * @return The final function of the dictionary
    */
-  public IFinalFunction<DawgNode> finalFunction(@NonNull final Dawg dictionary) {
+  public IFinalFunction<DawgNode> finalFunction(final Dawg dictionary) {
     return dictionary;
   }
 
@@ -73,7 +65,7 @@ public class DawgFactory implements Serializable {
    * @param dictionary Dawg whose transition function should be returned
    * @return The transition function of the dictionary
    */
-  public ITransitionFunction<DawgNode> transitionFunction(@NonNull final Dawg dictionary) {
+  public ITransitionFunction<DawgNode> transitionFunction(final Dawg dictionary) {
     return dictionary;
   }
 }

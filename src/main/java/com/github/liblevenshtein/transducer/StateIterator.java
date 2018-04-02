@@ -1,14 +1,11 @@
 package com.github.liblevenshtein.transducer;
 
-import lombok.AllArgsConstructor;
-
 import com.github.liblevenshtein.collection.AbstractIterator;
 
 /**
  * Iterates over the positions of a {@link State}.
  * @since 3.0.0
  */
-@AllArgsConstructor
 public class StateIterator extends AbstractIterator<Position> {
 
   /**
@@ -32,6 +29,13 @@ public class StateIterator extends AbstractIterator<Position> {
    * ability to look behind {@link #curr} is useful for some operations.
    */
   private Position prev;
+
+  public StateIterator(State state, Position lookAhead, Position curr, Position prev) {
+    this.state = state;
+    this.lookAhead = lookAhead;
+    this.curr = curr;
+    this.prev = prev;
+  }
 
   /**
    * Inserts a new {@link Position} into {@link #state} immediately after the

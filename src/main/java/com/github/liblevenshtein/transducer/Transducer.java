@@ -1,11 +1,7 @@
 package com.github.liblevenshtein.transducer;
 
 import java.io.Serializable;
-
-import lombok.Data;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import java.util.Objects;
 
 /**
  * This wrapper around {@link LazyTransducerCollection}, which handles all the
@@ -17,8 +13,6 @@ import lombok.RequiredArgsConstructor;
  *   dictionary.
  * @since 2.1.0
  */
-@Data
-@RequiredArgsConstructor
 public class Transducer<DictionaryNode, CandidateType>
   implements ITransducer<CandidateType>, Serializable {
 
@@ -27,15 +21,21 @@ public class Transducer<DictionaryNode, CandidateType>
   /**
    * Attributes required for this transducer to search the dictionary.
    */
-  @Getter
-  @NonNull
   private TransducerAttributes<DictionaryNode, CandidateType> attributes;
+
+  public Transducer(TransducerAttributes<DictionaryNode, CandidateType> attributes) {
+    this.attributes = attributes;
+  }
+
+  public TransducerAttributes<DictionaryNode, CandidateType> attributes() {
+    return attributes;
+  }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Iterable<CandidateType> transduce(@NonNull final String term) {
+  public Iterable<CandidateType> transduce(final String term) {
     return transduce(term, attributes.maxDistance());
   }
 
@@ -44,9 +44,23 @@ public class Transducer<DictionaryNode, CandidateType>
    */
   @Override
   public Iterable<CandidateType> transduce(
-      @NonNull final String term,
+      final String term,
       final int maxDistance) {
     return new LazyTransducerCollection<DictionaryNode, CandidateType>(
         term, maxDistance, attributes);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Transducer<?, ?> that = (Transducer<?, ?>) o;
+    return Objects.equals(attributes, that.attributes);
+  }
+
+  @Override
+  public int hashCode() {
+
+    return Objects.hash(attributes);
   }
 }

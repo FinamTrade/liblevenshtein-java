@@ -1,4 +1,0 @@
-[submodule "gh-pages"]
-  path = gh-pages
-  url = git@github.com:universal-automata/liblevenshtein-java.git
-  branch = gh-pages

@@ -1,11 +1,11 @@
 package com.github.liblevenshtein.collection;
 
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2IntRBTreeMap;
-
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -50,9 +50,9 @@ public class SymmetricImmutablePairTest {
 
     assertThat(lhs.hashCode()).isEqualTo(rhs.hashCode());
 
-    Object2IntMap<SymmetricImmutablePair<String>> map;
+    Map<SymmetricImmutablePair<String>,Integer> map;
 
-    map = new Object2IntOpenHashMap<>(2);
+    map = new HashMap<>(2);
 
     map.put(lhs, 1);
     assertThat(map).containsEntry(lhs, 1);
@@ -62,7 +62,7 @@ public class SymmetricImmutablePairTest {
     assertThat(map).containsEntry(rhs, 2);
     assertThat(map).containsEntry(lhs, 2);
 
-    map = new Object2IntRBTreeMap<>();
+    map = new TreeMap<>();
 
     map.put(lhs, 1);
     assertThat(map).containsEntry(lhs, 1);

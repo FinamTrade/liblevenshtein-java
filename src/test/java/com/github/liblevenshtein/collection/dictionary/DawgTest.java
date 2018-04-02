@@ -1,32 +1,19 @@
 package com.github.liblevenshtein.collection.dictionary;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import com.google.common.base.Joiner;
-
+import com.github.liblevenshtein.collection.dictionary.factory.DawgFactory;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-import com.github.liblevenshtein.collection.dictionary.factory.DawgFactory;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.github.liblevenshtein.assertion.SetAssertions.assertThat;
 
-@Slf4j
 public class DawgTest {
 
   private List<String> terms;
@@ -113,7 +100,7 @@ public class DawgTest {
     if (!termsList.isEmpty()) {
       final String message =
         String.format("Expected all terms to be iterated over, but missed [%s]",
-          Joiner.on(", ").join(termsList));
+          termsList.stream().collect(Collectors.joining(", ")));
       throw new AssertionError(message);
     }
   }
@@ -133,7 +120,6 @@ public class DawgTest {
     assertThat(fullDawg).isEqualTo(other);
   }
 
-  @RequiredArgsConstructor
   private static class TermIterator implements Iterator<Object[]> {
 
     private final Iterator<String> terms;
@@ -141,6 +127,10 @@ public class DawgTest {
     private Object[] params = null;
 
     private Object[] buffer = new Object[1];
+
+    public TermIterator(Iterator<String> terms) {
+      this.terms = terms;
+    }
 
     @Override
     public boolean hasNext() {

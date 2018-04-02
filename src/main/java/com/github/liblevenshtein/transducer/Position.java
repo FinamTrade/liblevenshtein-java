@@ -1,9 +1,7 @@
 package com.github.liblevenshtein.transducer;
 
 import java.io.Serializable;
-
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import java.util.Objects;
 
 /**
  * {@link Position}s are used to maintain a sorted, linked-list of positions
@@ -13,8 +11,6 @@ import lombok.RequiredArgsConstructor;
  * @author Dylon Edwards
  * @since 3.0.0
  */
-@Data
-@RequiredArgsConstructor
 public class Position implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -34,6 +30,28 @@ public class Position implements Serializable {
    */
   private final int numErrors;
 
+  public Position(int termIndex, int numErrors) {
+    this.termIndex = termIndex;
+    this.numErrors = numErrors;
+  }
+
+  public Position next() {
+    return next;
+  }
+
+  public Position next(Position next) {
+    this.next = next;
+    return this;
+  }
+
+  public int termIndex() {
+    return termIndex;
+  }
+
+  public int numErrors() {
+    return numErrors;
+  }
+
   /**
    * Whether this position should be treated specially, such as whether it
    * represents a tranposition, merge, or split.
@@ -41,5 +59,20 @@ public class Position implements Serializable {
    */
   public boolean isSpecial() {
     return false;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Position position = (Position) o;
+    return termIndex == position.termIndex &&
+            numErrors == position.numErrors &&
+            Objects.equals(next, position.next);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(next, termIndex, numErrors);
   }
 }

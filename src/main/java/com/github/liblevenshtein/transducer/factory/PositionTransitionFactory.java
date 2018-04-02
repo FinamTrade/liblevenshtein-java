@@ -1,23 +1,17 @@
 package com.github.liblevenshtein.transducer.factory;
 
-import java.io.Serializable;
-
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import com.github.liblevenshtein.transducer.MergeAndSplitPositionTransitionFunction;
 import com.github.liblevenshtein.transducer.PositionTransitionFunction;
 import com.github.liblevenshtein.transducer.StandardPositionTransitionFunction;
 import com.github.liblevenshtein.transducer.TranspositionPositionTransitionFunction;
+
+import java.io.Serializable;
 
 /**
  * Builds position-transition functions for Levenshtein states.
  * @author Dylon Edwards
  * @since 2.1.0
  */
-@Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class PositionTransitionFactory implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -31,6 +25,16 @@ public abstract class PositionTransitionFactory implements Serializable {
    * Builds Levenshtein positions.
    */
   protected PositionFactory positionFactory;
+
+  public PositionTransitionFactory stateFactory(StateFactory stateFactory) {
+    this.stateFactory = stateFactory;
+    return this;
+  }
+
+  public PositionTransitionFactory positionFactory(PositionFactory positionFactory) {
+    this.positionFactory = positionFactory;
+    return this;
+  }
 
   /**
    * Builds a new position-transition function.

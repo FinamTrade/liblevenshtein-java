@@ -1,11 +1,8 @@
 package com.github.liblevenshtein.transducer.factory;
 
-import java.io.Serializable;
-
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 import com.github.liblevenshtein.transducer.Candidate;
+
+import java.io.Serializable;
 
 /**
  * Builds spelling candidates of the requested type, optionally including the
@@ -14,7 +11,6 @@ import com.github.liblevenshtein.transducer.Candidate;
  * @param <CandidateType> Kind of spelling candidate built by this factory.
  * @since 2.1.2
  */
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class CandidateFactory<CandidateType> implements Serializable {
 
   private static final long serialVersionUID = 1L;

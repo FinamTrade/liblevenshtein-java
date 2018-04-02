@@ -1,11 +1,7 @@
 package com.github.liblevenshtein.collection;
 
 import java.io.Serializable;
-
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-import lombok.NonNull;
-import lombok.Value;
+import java.util.Objects;
 
 /**
  * Symmetric, immutable pairs are equivalent if they contain equivalent
@@ -14,7 +10,6 @@ import lombok.Value;
  * @author Dylon Edwards
  * @since 2.1.0
  */
-@Value
 public class SymmetricImmutablePair<Type extends Comparable<Type>>
     implements Comparable<SymmetricImmutablePair<Type>>, Serializable {
 
@@ -47,8 +42,8 @@ public class SymmetricImmutablePair<Type extends Comparable<Type>>
    * @param second Second element of this pair
    */
   public SymmetricImmutablePair(
-      @NonNull final Type first,
-      @NonNull final Type second) {
+      final Type first,
+      final Type second) {
 
     if (first.compareTo(second) < 0) {
       this.first = first;
@@ -59,10 +54,15 @@ public class SymmetricImmutablePair<Type extends Comparable<Type>>
       this.second = first;
     }
 
-    this.hashCode = new HashCodeBuilder(541, 7873)
-      .append(this.first)
-      .append(this.second)
-      .toHashCode();
+    this.hashCode = Objects.hash(this.first, this.second);
+  }
+
+  public Type first() {
+    return first;
+  }
+
+  public Type second() {
+    return second;
   }
 
   /**

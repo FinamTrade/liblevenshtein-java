@@ -1,9 +1,7 @@
 package com.github.liblevenshtein.collection.dictionary;
 
 import java.io.Serializable;
-
-import lombok.AllArgsConstructor;
-import lombok.Value;
+import java.util.Objects;
 
 /**
  * Creates a linked list that can be used to traverse an
@@ -11,8 +9,6 @@ import lombok.Value;
  * @author Dylon Edwards
  * @since 2.1.0
  */
-@Value
-@AllArgsConstructor
 public class Prefix implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -40,6 +36,24 @@ public class Prefix implements Serializable {
    */
   public Prefix(final DawgNode rootNode) {
     this(rootNode, null, '\0');
+  }
+
+  public Prefix(DawgNode node, Prefix prevNode, char label) {
+    this.node = node;
+    this.prevNode = prevNode;
+    this.label = label;
+  }
+
+  public DawgNode node() {
+    return node;
+  }
+
+  public Prefix prevNode() {
+    return prevNode;
+  }
+
+  public char label() {
+    return label;
   }
 
   /**
@@ -71,5 +85,21 @@ public class Prefix implements Serializable {
     }
 
     return buffer;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Prefix prefix = (Prefix) o;
+    return label == prefix.label &&
+            Objects.equals(node, prefix.node) &&
+            Objects.equals(prevNode, prefix.prevNode);
+  }
+
+  @Override
+  public int hashCode() {
+
+    return Objects.hash(node, prevNode, label);
   }
 }

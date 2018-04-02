@@ -1,13 +1,10 @@
 package com.github.liblevenshtein.collection.dictionary;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
-
-import it.unimi.dsi.fastutil.chars.CharIterator;
-
-import lombok.NonNull;
-
 import com.github.liblevenshtein.collection.AbstractIterator;
+
+import java.util.ArrayDeque;
+import java.util.Iterator;
+import java.util.Queue;
 
 /**
  * Iterates over the terms within an {@link Dawg}.
@@ -37,8 +34,8 @@ public class DawgIterator extends AbstractIterator<String> {
    *   character in some term.
    */
   public DawgIterator(
-      @NonNull final DawgNode root,
-      @NonNull final IFinalFunction<DawgNode> isFinal) {
+      final DawgNode root,
+      final IFinalFunction<DawgNode> isFinal) {
     this.isFinal = isFinal;
     prefixes.offer(new Prefix(root));
   }
@@ -56,9 +53,9 @@ public class DawgIterator extends AbstractIterator<String> {
         final Prefix prefix = prefixes.poll();
         node = prefix.node();
         value = prefix.value();
-        final CharIterator iter = node.labels();
+        final Iterator<Character> iter = node.labels();
         while (iter.hasNext()) {
-          final char label = iter.nextChar();
+          final char label = iter.next();
           final DawgNode nextNode = node.transition(label);
           prefixes.add(new Prefix(nextNode, prefix, label));
         }

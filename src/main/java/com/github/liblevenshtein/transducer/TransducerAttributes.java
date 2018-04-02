@@ -1,18 +1,13 @@
 package com.github.liblevenshtein.transducer;
 
-import java.io.Serializable;
-
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.ToString;
-
 import com.github.liblevenshtein.collection.dictionary.Dawg;
 import com.github.liblevenshtein.collection.dictionary.IFinalFunction;
 import com.github.liblevenshtein.collection.dictionary.ITransitionFunction;
 import com.github.liblevenshtein.transducer.factory.CandidateFactory;
 import com.github.liblevenshtein.transducer.factory.StateTransitionFactory;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Attributes required for this transducer to search the dictionary.
@@ -21,21 +16,25 @@ import com.github.liblevenshtein.transducer.factory.StateTransitionFactory;
  * @param <DictionaryNode> Kind of nodes of the dictionary automaton.
  * @param <CandidateType> Kind of the spelling candidates returned from the
  */
-@Getter
-@Builder
-@ToString(of = {
-  "maxDistance",
-  "dictionary",
-  "algorithm",
-  "includeDistance"})
-@EqualsAndHashCode(of = {
-  "maxDistance",
-  "dictionary",
-  "algorithm",
-  "includeDistance"})
 public class TransducerAttributes<DictionaryNode, CandidateType> implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    TransducerAttributes<?, ?> that = (TransducerAttributes<?, ?>) o;
+    return maxDistance == that.maxDistance &&
+            includeDistance == that.includeDistance &&
+            Objects.equals(dictionary, that.dictionary) &&
+            algorithm == that.algorithm;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(maxDistance, dictionary, algorithm, includeDistance);
+  }
 
   /**
    * Maximum number of spelling errors candidates may have from the query term.
@@ -47,57 +46,48 @@ public class TransducerAttributes<DictionaryNode, CandidateType> implements Seri
    * may optionally include the Levenshtein distance between their dictionary
    * terms and the query term.
    */
-  @NonNull
   protected CandidateFactory<CandidateType> candidateFactory;
 
   /**
    * Returns state-transition functions for specific, max edit distances.
    */
-  @NonNull
   protected StateTransitionFactory stateTransitionFactory;
 
   /**
    * Determines the minimum distance at which a Levenshtein state may be
    * considered from the query term, based on its length.
    */
-  @NonNull
   protected DistanceFunction minDistance;
 
   /**
    * Returns whether a dictionary node is the final character in some term.
    */
-  @NonNull
   protected IFinalFunction<DictionaryNode> isFinal;
 
   /**
    * Transition function for dictionary nodes.
    */
-  @NonNull
   protected ITransitionFunction<DictionaryNode> dictionaryTransition;
 
   /**
    * State at which to begin traversing the Levenshtein automaton.
    */
-  @NonNull
   protected State initialState;
 
   /**
    * Root node of the dictionary, at which to begin searching for spelling
    * candidates.
    */
-  @NonNull
   protected DictionaryNode dictionaryRoot;
 
   /**
    * Dictionary of this transducer.
    */
-  @NonNull
   protected Dawg dictionary;
 
   /**
    * Transduction algorithm.
    */
-  @NonNull
   protected Algorithm algorithm;
 
   /**
@@ -105,4 +95,103 @@ public class TransducerAttributes<DictionaryNode, CandidateType> implements Seri
    * candidate terms.
    */
   protected boolean includeDistance;
+
+  public int maxDistance() {
+    return maxDistance;
+  }
+
+  public CandidateFactory<CandidateType> candidateFactory() {
+    return candidateFactory;
+  }
+
+  public StateTransitionFactory stateTransitionFactory() {
+    return stateTransitionFactory;
+  }
+
+  public DistanceFunction minDistance() {
+    return minDistance;
+  }
+
+  public IFinalFunction<DictionaryNode> isFinal() {
+    return isFinal;
+  }
+
+  public ITransitionFunction<DictionaryNode> dictionaryTransition() {
+    return dictionaryTransition;
+  }
+
+  public State initialState() {
+    return initialState;
+  }
+
+  public DictionaryNode dictionaryRoot() {
+    return dictionaryRoot;
+  }
+
+  public Dawg dictionary() {
+    return dictionary;
+  }
+
+  public Algorithm algorithm() {
+    return algorithm;
+  }
+
+  public boolean includeDistance() {
+    return includeDistance;
+  }
+
+  public TransducerAttributes maxDistance(int maxDistance) {
+    this.maxDistance = maxDistance;
+    return this;
+  }
+
+  public TransducerAttributes candidateFactory(CandidateFactory<CandidateType> candidateFactory) {
+    this.candidateFactory = candidateFactory;
+    return this;
+  }
+
+  public TransducerAttributes stateTransitionFactory(StateTransitionFactory stateTransitionFactory) {
+    this.stateTransitionFactory = stateTransitionFactory;
+    return this;
+  }
+
+  public TransducerAttributes minDistance(DistanceFunction minDistance) {
+    this.minDistance = minDistance;
+    return this;
+  }
+
+  public TransducerAttributes isFinal(IFinalFunction<DictionaryNode> isFinal) {
+    this.isFinal = isFinal;
+    return this;
+  }
+
+  public TransducerAttributes dictionaryTransition(ITransitionFunction<DictionaryNode> dictionaryTransition) {
+    this.dictionaryTransition = dictionaryTransition;
+    return this;
+  }
+
+  public TransducerAttributes initialState(State initialState) {
+    this.initialState = initialState;
+    return this;
+  }
+
+  public TransducerAttributes dictionaryRoot(DictionaryNode dictionaryRoot) {
+    this.dictionaryRoot = dictionaryRoot;
+    return this;
+  }
+
+  public TransducerAttributes dictionary(Dawg dictionary) {
+    this.dictionary = dictionary;
+    return this;
+  }
+
+  public TransducerAttributes algorithm(Algorithm algorithm) {
+    this.algorithm = algorithm;
+    return this;
+  }
+
+  public TransducerAttributes includeDistance(boolean includeDistance) {
+    this.includeDistance = includeDistance;
+    return this;
+  }
 }

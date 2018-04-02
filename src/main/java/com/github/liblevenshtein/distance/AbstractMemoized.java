@@ -1,13 +1,10 @@
 package com.github.liblevenshtein.distance;
 
-import java.io.Serializable;
-
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-
-import lombok.NonNull;
-
 import com.github.liblevenshtein.collection.SymmetricImmutablePair;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Common, initialization logic for memoized, distance metrics.
@@ -22,14 +19,13 @@ public abstract class AbstractMemoized implements IDistance<String>, Serializabl
   private static final long serialVersionUID = 1L;
 
   /** Memoizes the distance pairs of terms. */
-  protected final Object2IntMap<SymmetricImmutablePair<String>> memo;
+  protected final Map<SymmetricImmutablePair<String>,Integer> memo;
 
   /**
    * Initializes the memoization map, etc.
    */
   public AbstractMemoized() {
-    memo = new Object2IntOpenHashMap<>();
-    memo.defaultReturnValue(DEFAULT_RETURN_VALUE);
+    memo = new HashMap<>();
   }
 
   /**
@@ -54,7 +50,7 @@ public abstract class AbstractMemoized implements IDistance<String>, Serializabl
    * {@inheritDoc}
    */
   @Override
-  public synchronized int between(@NonNull final String v, @NonNull final String w) {
+  public synchronized int between(final String v, final String w) {
     // Don't want to check for nullity on each recursion ...
     return memoizedDistance(v, w);
   }

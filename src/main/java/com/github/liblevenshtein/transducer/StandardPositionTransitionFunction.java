@@ -1,5 +1,8 @@
 package com.github.liblevenshtein.transducer;
 
+import com.github.liblevenshtein.transducer.factory.PositionFactory;
+import com.github.liblevenshtein.transducer.factory.StateFactory;
+
 /**
  * Transitions a standard, Levenshtein position to all possible positions, given
  * a set of parameters.
@@ -9,6 +12,16 @@ package com.github.liblevenshtein.transducer;
 public class StandardPositionTransitionFunction extends PositionTransitionFunction {
 
   private static final long serialVersionUID = 1L;
+
+  public StandardPositionTransitionFunction stateFactory(StateFactory stateFactory) {
+    this.stateFactory = stateFactory;
+    return this;
+  }
+
+  public StandardPositionTransitionFunction positionFactory(PositionFactory positionFactory) {
+    this.positionFactory = positionFactory;
+    return this;
+  }
 
   /**
    * {@inheritDoc}

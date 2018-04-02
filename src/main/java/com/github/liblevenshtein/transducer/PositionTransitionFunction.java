@@ -1,11 +1,9 @@
 package com.github.liblevenshtein.transducer;
 
-import java.io.Serializable;
-
-import lombok.Setter;
-
 import com.github.liblevenshtein.transducer.factory.PositionFactory;
 import com.github.liblevenshtein.transducer.factory.StateFactory;
+
+import java.io.Serializable;
 
 /**
  * Implements common logic shared among the position-transition functions, which
@@ -15,7 +13,6 @@ import com.github.liblevenshtein.transducer.factory.StateFactory;
  * @author Dylon Edwards
  * @since 2.1.0
  */
-@Setter
 public abstract class PositionTransitionFunction implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -29,6 +26,16 @@ public abstract class PositionTransitionFunction implements Serializable {
    * Builds and caches positions for states in the transducer.
    */
   protected PositionFactory positionFactory;
+
+  public PositionTransitionFunction stateFactory(StateFactory stateFactory) {
+    this.stateFactory = stateFactory;
+    return this;
+  }
+
+  public PositionTransitionFunction positionFactory(PositionFactory positionFactory) {
+    this.positionFactory = positionFactory;
+    return this;
+  }
 
   /**
    * Returns the first index of the characteristic vector between indices, i and

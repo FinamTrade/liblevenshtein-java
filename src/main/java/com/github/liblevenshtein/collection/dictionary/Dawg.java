@@ -5,12 +5,7 @@ import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-
-import it.unimi.dsi.fastutil.chars.CharIterator;
-
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Objects;
 
 /**
  * Provides common logic for all my Dawg implementations.  Currently, there is
@@ -18,9 +13,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author Dylon Edwards
  * @since 2.1.0
  */
-@Slf4j
-@EqualsAndHashCode(of = {"size", "root"},
-                   callSuper = false)
 public abstract class Dawg
     extends AbstractSet<String>
     implements IFinalFunction<DawgNode>,
@@ -32,14 +24,12 @@ public abstract class Dawg
   /**
    * Root node of this trie.
    */
-  @Getter
   protected DawgNode root = null;
 
   /**
    * Number of terms in this trie.
    * @return Number of terms in this trie.
    */
-  @Getter(onMethod = @__({@Override}))
   protected int size = 0;
 
   /**
@@ -59,6 +49,15 @@ public abstract class Dawg
    */
   public Dawg() {
     this(new DawgNode(), 0);
+  }
+
+  public DawgNode root() {
+    return root;
+  }
+
+  @Override
+  public int size() {
+    return size;
   }
 
   /**
@@ -81,7 +80,7 @@ public abstract class Dawg
    * {@inheritDoc}
    */
   @Override
-  public CharIterator of(final DawgNode node) {
+  public Iterator<Character> of(final DawgNode node) {
     return node.labels();
   }
 
@@ -96,13 +95,9 @@ public abstract class Dawg
    */
   @Override
   public synchronized boolean addAll(final Collection<? extends String> terms) {
-    int counter = 0;
     for (final String term : terms) {
       if (!add(term)) {
         return false;
-      }
-      if (++counter % 10_000 == 0) {
-        log.info("Added [{}] of [{}] terms", counter, terms.size());
       }
     }
     return true;
@@ -163,5 +158,21 @@ public abstract class Dawg
   @Override
   public String toString() {
     return String.format("%s(size=%d)", getClass().getSimpleName(), size);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    if (!super.equals(o)) return false;
+    Dawg strings = (Dawg) o;
+    return size == strings.size &&
+            Objects.equals(root, strings.root);
+  }
+
+  @Override
+  public int hashCode() {
+
+    return Objects.hash(root, size);
   }
 }

@@ -1,6 +1,6 @@
 package com.github.liblevenshtein.collection.dictionary;
 
-import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
+import java.util.Map;
 
 /**
  * Final element of a DAWG structure (Directed Acyclic Word Graph).
@@ -13,18 +13,18 @@ public class FinalDawgNode extends DawgNode {
   /**
    * Constructs a new {@link FinalDawgNode}, which acts just like a
    * {@link DawgNode} except that {@link #isFinal()} returns true.
-   * @param edges Outgoing edges of this node.
    */
-  public FinalDawgNode(final Char2ObjectMap<DawgNode> edges) {
-    super(edges);
+  public FinalDawgNode() {
+    super();
   }
 
   /**
    * Constructs a new {@link FinalDawgNode}, which acts just like a
    * {@link DawgNode} except that {@link #isFinal()} returns true.
+   * @param edges Outgoing edges of this node.
    */
-  public FinalDawgNode() {
-    super();
+  public FinalDawgNode(final Map<Character,DawgNode> edges) {
+    super(edges);
   }
 
   /**

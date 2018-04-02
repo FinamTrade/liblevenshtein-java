@@ -1,8 +1,7 @@
 package com.github.liblevenshtein.collection.dictionary;
 
 import java.io.Serializable;
-
-import it.unimi.dsi.fastutil.chars.CharIterator;
+import java.util.Iterator;
 
 /**
  * Deterministically-transitions between states according to some input.
@@ -25,5 +24,5 @@ public interface ITransitionFunction<State> extends Serializable {
    * @param current The active state of an automaton
    * @return The labels of the outgoing edges from the node.
    */
-  CharIterator of(State current);
+  Iterator<Character> of(State current);
 }

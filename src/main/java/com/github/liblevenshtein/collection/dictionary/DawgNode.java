@@ -1,18 +1,10 @@
 package com.github.liblevenshtein.collection.dictionary;
 
 import java.io.Serializable;
-
-import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
-import it.unimi.dsi.fastutil.chars.Char2ObjectRBTreeMap;
-import it.unimi.dsi.fastutil.chars.CharIterator;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NonNull;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TreeMap;
 
 /**
  * Non-final element of a DAWG structure (Directed Acyclic Word Graph).
@@ -20,23 +12,23 @@ import lombok.NonNull;
  * @author Dylon Edwards
  * @since 2.1.0
  */
-@Data
-@AllArgsConstructor
 public class DawgNode implements Serializable {
-
   private static final long serialVersionUID = 1L;
 
   /**
    * Outgoing edges of this node.
    */
-  @NonNull
-  protected final Char2ObjectMap<DawgNode> edges;
+  protected final Map<Character,DawgNode> edges;
 
   /**
    * Constructs a non-final {@link DawgNode}.
    */
   public DawgNode() {
-    this(new Char2ObjectRBTreeMap<>());
+    this(new TreeMap<>());
+  }
+
+  public DawgNode(Map<Character,DawgNode> edges) {
+    this.edges = edges;
   }
 
   /**
@@ -51,7 +43,7 @@ public class DawgNode implements Serializable {
    * Returns the labels of the outgoing edges of this node.
    * @return Labels of the outgoing edges of this node.
    */
-  public CharIterator labels() {
+  public Iterator<Character> labels() {
     return edges.keySet().iterator();
   }
 
@@ -101,10 +93,7 @@ public class DawgNode implements Serializable {
 
     final DawgNode other = (DawgNode) object;
 
-    return new EqualsBuilder()
-      .append(edges, other.edges)
-      .append(isFinal(), other.isFinal())
-      .isEquals();
+    return Objects.equals(edges, other.edges) && isFinal() == other.isFinal();
   }
 
   /**
@@ -112,10 +101,7 @@ public class DawgNode implements Serializable {
    */
   @Override
   public int hashCode() {
-    return new HashCodeBuilder(419, 181)
-      .append(edges)
-      .append(isFinal())
-      .toHashCode();
+    return Objects.hash(edges.hashCode(), isFinal());
   }
 
   /**
@@ -123,9 +109,6 @@ public class DawgNode implements Serializable {
    */
   @Override
   public String toString() {
-    return new ToStringBuilder(this)
-      .append("edges", edges)
-      .append("isFinal", isFinal())
-      .toString();
+    return "edges: " + edges.toString() + "; isFinal: " + isFinal();
   }
 }
