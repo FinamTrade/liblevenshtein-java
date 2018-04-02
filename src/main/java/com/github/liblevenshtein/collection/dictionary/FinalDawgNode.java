@@ -1,5 +1,7 @@
 package com.github.liblevenshtein.collection.dictionary;
 
+import java.util.Map;
+
 /**
  * Final element of a DAWG structure (Directed Acyclic Word Graph).
  * Currently, this is tightly-coupled with character-node types.
@@ -14,6 +16,15 @@ public class FinalDawgNode extends DawgNode {
    */
   public FinalDawgNode() {
     super();
+  }
+
+  /**
+   * Constructs a new {@link FinalDawgNode}, which acts just like a
+   * {@link DawgNode} except that {@link #isFinal()} returns true.
+   * @param edges Outgoing edges of this node.
+   */
+  public FinalDawgNode(final Map<Character,DawgNode> edges) {
+    super(edges);
   }
 
   /**
