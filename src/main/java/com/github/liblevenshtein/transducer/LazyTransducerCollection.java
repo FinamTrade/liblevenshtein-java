@@ -1,7 +1,6 @@
 package com.github.liblevenshtein.transducer;
 
 import com.github.liblevenshtein.collection.AbstractIterator;
-import it.unimi.dsi.fastutil.chars.CharIterator;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -106,7 +105,7 @@ public class LazyTransducerCollection<DictionaryNode, CandidateType>
   /**
    * Labels of the outgoing transitions for a dictionary state.
    */
-  private CharIterator labels = null;
+  private Iterator<Character> labels = null;
 
   /**
    * Current intersection between the dictionary and Levenshtein automata.
@@ -174,7 +173,7 @@ public class LazyTransducerCollection<DictionaryNode, CandidateType>
       if (null != labels && labels.hasNext()) {
         final DictionaryNode dictionaryNode = intersection.dictionaryNode();
         final State levenshteinState = intersection.levenshteinState();
-        final char label = labels.nextChar();
+        final char label = labels.next();
         final DictionaryNode nextDictionaryNode =
           attributes.dictionaryTransition().of(dictionaryNode, label);
         final boolean[] characteristicVector =

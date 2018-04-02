@@ -20,7 +20,7 @@ public class MemoizedMergeAndSplit extends AbstractMemoized {
   public int memoizedDistance(String v, String w) {
     SymmetricImmutablePair<String> key = new SymmetricImmutablePair<>(v, w);
 
-    int distance = memo.getInt(key);
+    int distance = memo.getOrDefault(key, DEFAULT_RETURN_VALUE);
     if (distance != DEFAULT_RETURN_VALUE) {
       return distance;
     }

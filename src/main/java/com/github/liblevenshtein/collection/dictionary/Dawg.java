@@ -1,11 +1,11 @@
 package com.github.liblevenshtein.collection.dictionary;
 
-import it.unimi.dsi.fastutil.chars.CharIterator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.Serializable;
-import java.util.*;
+import java.util.AbstractSet;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Provides common logic for all my Dawg implementations.  Currently, there is
@@ -20,7 +20,6 @@ public abstract class Dawg
                Serializable {
 
   private static final long serialVersionUID = 1L;
-  private static final Logger log = LoggerFactory.getLogger(Dawg.class);
 
   /**
    * Root node of this trie.
@@ -81,7 +80,7 @@ public abstract class Dawg
    * {@inheritDoc}
    */
   @Override
-  public CharIterator of(final DawgNode node) {
+  public Iterator<Character> of(final DawgNode node) {
     return node.labels();
   }
 
@@ -96,13 +95,9 @@ public abstract class Dawg
    */
   @Override
   public synchronized boolean addAll(final Collection<? extends String> terms) {
-    int counter = 0;
     for (final String term : terms) {
       if (!add(term)) {
         return false;
-      }
-      if (++counter % 10_000 == 0) {
-        log.info("Added [{}] of [{}] terms", counter, terms.size());
       }
     }
     return true;

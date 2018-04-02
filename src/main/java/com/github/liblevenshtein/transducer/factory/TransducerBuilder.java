@@ -18,8 +18,6 @@ import com.github.liblevenshtein.transducer.SubsumesFunction;
 import com.github.liblevenshtein.transducer.Transducer;
 import com.github.liblevenshtein.transducer.TransducerAttributes;
 import com.github.liblevenshtein.transducer.UnsubsumeFunction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Fluently-builds Levenshtein transducers.
@@ -30,7 +28,6 @@ import org.slf4j.LoggerFactory;
 public class TransducerBuilder implements Serializable {
 
   private static final long serialVersionUID = 1L;
-  private static final Logger log = LoggerFactory.getLogger(TransducerBuilder.class);
 
   /**
    * Builds DAWG collections from dictionaries.
@@ -116,11 +113,6 @@ public class TransducerBuilder implements Serializable {
    */
   @SuppressWarnings("unchecked")
   public <CandidateType> ITransducer<CandidateType> build() {
-    log.info("Building transducer out of [{}] terms with isSorted [{}], "
-        + "algorithm [{}], defaultMaxDistance [{}], and includeDistance [{}]",
-        dictionary.size(), isSorted, algorithm, defaultMaxDistance,
-        includeDistance);
-
     final Dawg dictionary = dawgFactory.build(this.dictionary, this.isSorted);
     final PositionFactory positionFactory = new PositionFactory();
     final StateFactory stateFactory = new StateFactory();

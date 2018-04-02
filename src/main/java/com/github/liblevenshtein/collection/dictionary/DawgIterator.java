@@ -1,9 +1,9 @@
 package com.github.liblevenshtein.collection.dictionary;
 
 import com.github.liblevenshtein.collection.AbstractIterator;
-import it.unimi.dsi.fastutil.chars.CharIterator;
 
 import java.util.ArrayDeque;
+import java.util.Iterator;
 import java.util.Queue;
 
 /**
@@ -53,9 +53,9 @@ public class DawgIterator extends AbstractIterator<String> {
         final Prefix prefix = prefixes.poll();
         node = prefix.node();
         value = prefix.value();
-        final CharIterator iter = node.labels();
+        final Iterator<Character> iter = node.labels();
         while (iter.hasNext()) {
-          final char label = iter.nextChar();
+          final char label = iter.next();
           final DawgNode nextNode = node.transition(label);
           prefixes.add(new Prefix(nextNode, prefix, label));
         }

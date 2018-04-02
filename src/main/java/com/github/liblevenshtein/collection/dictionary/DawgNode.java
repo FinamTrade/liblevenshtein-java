@@ -1,11 +1,10 @@
 package com.github.liblevenshtein.collection.dictionary;
 
-import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
-import it.unimi.dsi.fastutil.chars.Char2ObjectRBTreeMap;
-import it.unimi.dsi.fastutil.chars.CharIterator;
-
 import java.io.Serializable;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
+import java.util.TreeMap;
 
 /**
  * Non-final element of a DAWG structure (Directed Acyclic Word Graph).
@@ -14,22 +13,21 @@ import java.util.Objects;
  * @since 2.1.0
  */
 public class DawgNode implements Serializable {
-
   private static final long serialVersionUID = 1L;
 
   /**
    * Outgoing edges of this node.
    */
-  protected final Char2ObjectMap<DawgNode> edges;
+  protected final Map<Character,DawgNode> edges;
 
   /**
    * Constructs a non-final {@link DawgNode}.
    */
   public DawgNode() {
-    this(new Char2ObjectRBTreeMap<>());
+    this(new TreeMap<>());
   }
 
-  public DawgNode(Char2ObjectMap<DawgNode> edges) {
+  public DawgNode(Map<Character,DawgNode> edges) {
     this.edges = edges;
   }
 
@@ -45,7 +43,7 @@ public class DawgNode implements Serializable {
    * Returns the labels of the outgoing edges of this node.
    * @return Labels of the outgoing edges of this node.
    */
-  public CharIterator labels() {
+  public Iterator<Character> labels() {
     return edges.keySet().iterator();
   }
 
