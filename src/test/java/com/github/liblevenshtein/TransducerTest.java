@@ -55,6 +55,7 @@ public class TransducerTest {
         List<String> list = new ArrayList<>(terms);
         Collections.sort(list);
         dict.addAll(list);
+        dict.finish();
         return new TransducerBuilder()
                 .dictionary(dict)
                 .algorithm(Algorithm.TRANSPOSITION)
