@@ -28,7 +28,6 @@ public abstract class Dawg
 
   /**
    * Number of terms in this trie.
-   * @return Number of terms in this trie.
    */
   protected int size = 0;
 
