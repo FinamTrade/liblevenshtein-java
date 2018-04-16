@@ -15,7 +15,7 @@ public class StateTransitionFunctionAssertionsTest {
 
   private final boolean[] characteristicVector = {true, false};
 
-  private final ThreadLocal<StateTransitionFunction> transition = new ThreadLocal<>();
+  private final ThreadLocal<StateTransitionFunction> transition = new ThreadLocal<StateTransitionFunction>();
 
   private final State input = mock(State.class);
 

@@ -1,21 +1,34 @@
 package com.github.liblevenshtein;
 
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ReadLines {
 
-    public static List<String> fromURL(URL url) {
+    public static List<String> fromResources(String resourceName) {
+        List<String> result = new ArrayList<String>();
+        BufferedReader buffReader = null;
         try {
-            Stream<String> stream = Files.lines(Paths.get(url.toURI()));
-            return stream.collect(Collectors.toList());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            ClassLoader classLoader = ReadLines.class.getClassLoader();
+            buffReader = new BufferedReader(new FileReader(new File(classLoader.getResource(resourceName).getFile())));
+            String line = buffReader.readLine();
+            while (line != null) {
+                result.add(line);
+                line = buffReader.readLine();
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } finally {
+            try {
+                buffReader.close();
+            } catch (IOException ioe1) {
+                //Leave It
+            }
         }
-
+        return result;
     }
 }

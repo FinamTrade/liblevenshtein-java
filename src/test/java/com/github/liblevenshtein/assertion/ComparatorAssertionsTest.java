@@ -8,7 +8,12 @@ import static com.github.liblevenshtein.assertion.ComparatorAssertions.assertTha
 
 public class ComparatorAssertionsTest {
 
-  private final Comparator<Integer> comparator = (i, j) -> Integer.compare(i, j);
+  private final Comparator<Integer> comparator = new Comparator<Integer>() {
+    @Override
+    public int compare(Integer i, Integer j) {
+      return Integer.compare(i, j);
+    }
+  };
 
   @Test
   public void testEqualsTo() {

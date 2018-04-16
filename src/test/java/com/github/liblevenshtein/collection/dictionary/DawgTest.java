@@ -26,12 +26,14 @@ public class DawgTest {
 
   @BeforeClass
   public void setUp() throws IOException {
-    try (final BufferedReader reader = new BufferedReader(
-          new InputStreamReader(
-            getClass().getResourceAsStream("/wordsEn.txt"),
-            StandardCharsets.UTF_8))) {
+    BufferedReader reader = null;
+    try {
 
-      final List<String> termsList = new ArrayList<>();
+        reader = new BufferedReader(
+                new InputStreamReader(
+                        getClass().getResourceAsStream("/wordsEn.txt"),
+                        StandardCharsets.UTF_8));
+      final List<String> termsList = new ArrayList<String>();
 
       String term;
       while ((term = reader.readLine()) != null) {
@@ -42,8 +44,12 @@ public class DawgTest {
 
       this.terms = termsList;
       this.dawgFactory = new DawgFactory();
-      this.emptyDawg = dawgFactory.build(new ArrayList<>(0));
+      this.emptyDawg = dawgFactory.build(new ArrayList<String>(0));
       this.fullDawg = dawgFactory.build(termsList);
+    } catch (Throwable t) {
+        if (reader != null) {
+            reader.close();
+        }
     }
   }
 
@@ -79,7 +85,7 @@ public class DawgTest {
 
   @Test
   public void dawgAcceptsEmptyStringIfInTerms() {
-    final List<String> termsList = new ArrayList<>(1);
+    final List<String> termsList = new ArrayList<String>(1);
     termsList.add("");
     final Dawg dawg = dawgFactory.build(termsList);
     assertThat(dawg).contains("");
@@ -87,7 +93,7 @@ public class DawgTest {
 
   @Test
   public void dawgShouldIterateOverAllTerms() {
-    final Set<String> termsList = new HashSet<>(this.terms);
+    final Set<String> termsList = new HashSet<String>(this.terms);
     for (final String term : fullDawg) {
       try {
         assertThat(termsList).contains(term);
@@ -107,7 +113,7 @@ public class DawgTest {
 
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void insertingTermsOutOfOrderShouldThrowAnException() {
-    final List<String> termsList = new ArrayList<>(3);
+    final List<String> termsList = new ArrayList<String>(3);
     termsList.add("a");
     termsList.add("c");
     termsList.add("b");
@@ -116,7 +122,7 @@ public class DawgTest {
 
   @Test
   public void equivalentDawgsShouldBeEqual() {
-    final Dawg other = dawgFactory.build(new ArrayList<>(terms));
+    final Dawg other = dawgFactory.build(new ArrayList<String>(terms));
     assertThat(fullDawg).isEqualTo(other);
   }
 

@@ -78,6 +78,6 @@ public class SetAssertionsTest {
   }
 
   private Set<Integer> set(final Integer... values) {
-    return new HashSet<>(Arrays.asList(values));
+    return new HashSet<Integer>(Arrays.asList(values));
   }
 }

@@ -29,7 +29,7 @@ public class Issue10RegrTest {
     final DawgFactory factory = new DawgFactory();
     final Dawg dictionary = factory.build(terms, false);
 
-    final Set<String> visited = new HashSet<>();
+    final Set<String> visited = new HashSet<String>();
     final Iterator<String> iter = dictionary.iterator();
     while (iter.hasNext()) {
       final String term = iter.next();

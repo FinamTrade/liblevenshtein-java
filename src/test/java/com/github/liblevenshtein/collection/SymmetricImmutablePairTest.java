@@ -52,7 +52,7 @@ public class SymmetricImmutablePairTest {
 
     Map<SymmetricImmutablePair<String>,Integer> map;
 
-    map = new HashMap<>(2);
+    map = new HashMap<SymmetricImmutablePair<String>,Integer>(2);
 
     map.put(lhs, 1);
     assertThat(map).containsEntry(lhs, 1);
@@ -62,7 +62,7 @@ public class SymmetricImmutablePairTest {
     assertThat(map).containsEntry(rhs, 2);
     assertThat(map).containsEntry(lhs, 2);
 
-    map = new TreeMap<>();
+    map = new TreeMap<SymmetricImmutablePair<String>,Integer>();
 
     map.put(lhs, 1);
     assertThat(map).containsEntry(lhs, 1);
@@ -94,6 +94,6 @@ public class SymmetricImmutablePairTest {
   public SymmetricImmutablePair<String> build(
       final String first,
       final String second) {
-    return new SymmetricImmutablePair<>(first, second);
+    return new SymmetricImmutablePair<String>(first, second);
   }
 }

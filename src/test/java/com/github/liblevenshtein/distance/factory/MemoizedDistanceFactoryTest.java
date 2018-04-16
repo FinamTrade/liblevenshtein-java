@@ -51,12 +51,14 @@ public class MemoizedDistanceFactoryTest {
 
   @BeforeClass
   public void setUp() throws IOException {
-    try (final BufferedReader reader = new BufferedReader(
-          new InputStreamReader(
-            getClass().getResourceAsStream("/top-20-most-common-english-words.txt"),
-            StandardCharsets.UTF_8))) {
+    BufferedReader reader = null;
+    try {
 
-      final List<String> termsList = new ArrayList<>();
+      reader = new BufferedReader(
+              new InputStreamReader(
+                      getClass().getResourceAsStream("/top-20-most-common-english-words.txt"),
+                      StandardCharsets.UTF_8));
+      final List<String> termsList = new ArrayList<String>();
 
       String term;
       while ((term = reader.readLine()) != null) {
@@ -65,6 +67,10 @@ public class MemoizedDistanceFactoryTest {
 
       this.terms = termsList;
       this.factory = new MemoizedDistanceFactory();
+    } catch (Throwable t) {
+      if (reader != null) {
+        reader.close();
+      }
     }
   }
 

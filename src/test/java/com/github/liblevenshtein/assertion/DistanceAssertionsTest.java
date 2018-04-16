@@ -19,7 +19,7 @@ public class DistanceAssertionsTest {
 
   private static final String BAZ = "baz";
 
-  private final ThreadLocal<IDistance<String>> distance = new ThreadLocal<>();
+  private final ThreadLocal<IDistance<String>> distance = new ThreadLocal<IDistance<String>>();
 
   @BeforeMethod
   @SuppressWarnings("unchecked")

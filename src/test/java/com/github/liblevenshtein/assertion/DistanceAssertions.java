@@ -33,7 +33,7 @@ public class DistanceAssertions<Type>
    */
   public static <Type> DistanceAssertions<Type> assertThat(
       final IDistance<Type> actual) {
-    return new DistanceAssertions<>(actual);
+    return new DistanceAssertions<Type>(actual);
   }
 
   /**

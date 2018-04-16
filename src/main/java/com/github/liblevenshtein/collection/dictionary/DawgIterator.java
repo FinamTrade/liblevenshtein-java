@@ -19,7 +19,7 @@ public class DawgIterator extends AbstractIterator<String> {
    * Queue for traversing the terms in the {@link Dawg} in a
    * depth-first search manner.
    */
-  private final Queue<Prefix> prefixes = new ArrayDeque<>();
+  private final Queue<Prefix> prefixes = new ArrayDeque<Prefix>();
 
   /**
    * Returns whether the current {@link DawgNode} represents the last character

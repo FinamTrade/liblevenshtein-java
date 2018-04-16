@@ -27,7 +27,7 @@ public class IteratorAssertions<Type>
    */
   public static <Type> IteratorAssertions<Type> assertThat(
       final Iterator<Type> actual) {
-    return new IteratorAssertions<>(actual);
+    return new IteratorAssertions<Type>(actual);
   }
 
   /**

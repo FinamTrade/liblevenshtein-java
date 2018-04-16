@@ -17,7 +17,7 @@ public class CandidateAssertionsTest {
 
   private static final String BAR = "bar";
 
-  private final ThreadLocal<IDistance<String>> distance = new ThreadLocal<>();
+  private final ThreadLocal<IDistance<String>> distance = new ThreadLocal<IDistance<String>>();
 
   @BeforeMethod
   @SuppressWarnings("unchecked")

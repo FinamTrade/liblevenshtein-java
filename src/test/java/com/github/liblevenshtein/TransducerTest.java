@@ -52,7 +52,7 @@ public class TransducerTest {
 
     private ITransducer<Candidate> createTransducer(Collection<String> terms) {
         SortedDawg dict = new SortedDawg();
-        List<String> list = new ArrayList<>(terms);
+        List<String> list = new ArrayList<String>(terms);
         Collections.sort(list);
         dict.addAll(list);
         dict.finish();

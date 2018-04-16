@@ -45,7 +45,7 @@ public class ComparatorAssertions<Type>
    */
   public static <Type> ComparatorAssertions<Type> assertThat(
       final Comparator<Type> actual) {
-    return new ComparatorAssertions<>(actual);
+    return new ComparatorAssertions<Type>(actual);
   }
 
   /**

@@ -22,7 +22,7 @@ public class StandardPositionTransitionFunctionAssertionsTest {
 
   private static final int OFFSET = 0;
 
-  private final ThreadLocal<StandardPositionTransitionFunction> transition = new ThreadLocal<>();
+  private final ThreadLocal<StandardPositionTransitionFunction> transition = new ThreadLocal<StandardPositionTransitionFunction>();
 
   private final State output = mock(State.class);
 

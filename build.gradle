@@ -20,12 +20,12 @@ jmh {
 }
 
 group = 'ru.finam'
-version = '3.0.0' // http://semver.org/
+version = '3.0.1' // http://semver.org/
 
 description = 'A library for spelling-correction based on Levenshtein Automata.'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_1_6
+targetCompatibility = JavaVersion.VERSION_1_6
 
 dependencies {
   testCompile 'org.assertj:assertj-core:3.8.0'

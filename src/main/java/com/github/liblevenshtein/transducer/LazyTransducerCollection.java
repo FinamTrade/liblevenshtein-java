@@ -79,7 +79,7 @@ public class LazyTransducerCollection<DictionaryNode, CandidateType>
   /**
    * Breadth-first traversal of the dictionary automaton.
    */
-  private final Deque<Intersection<DictionaryNode>> pendingQueue = new ArrayDeque<>();
+  private final Deque<Intersection<DictionaryNode>> pendingQueue = new ArrayDeque<Intersection<DictionaryNode>>();
 
   /**
    * Transitions one state to another.
@@ -181,7 +181,7 @@ public class LazyTransducerCollection<DictionaryNode, CandidateType>
         final State nextLevenshteinState =
           stateTransition.of(levenshteinState, characteristicVector);
         if (null != nextLevenshteinState) {
-          final Intersection<DictionaryNode> nextIntersection = new Intersection<>(
+          final Intersection<DictionaryNode> nextIntersection = new Intersection<DictionaryNode>(
             intersection,
             label,
             nextDictionaryNode,

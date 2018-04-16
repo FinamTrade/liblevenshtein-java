@@ -19,7 +19,7 @@ public class MemoizedStandard extends AbstractMemoized {
   @Override
   @SuppressWarnings("checkstyle:finalparameters")
   public int memoizedDistance(String v, String w) {
-    SymmetricImmutablePair<String> key = new SymmetricImmutablePair<>(v, w);
+    SymmetricImmutablePair<String> key = new SymmetricImmutablePair<String>(v, w);
 
     int distance = memo.getOrDefault(key, DEFAULT_RETURN_VALUE);
     if (distance != DEFAULT_RETURN_VALUE) {

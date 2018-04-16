@@ -24,7 +24,7 @@ public class DawgNode implements Serializable {
    * Constructs a non-final {@link DawgNode}.
    */
   public DawgNode() {
-    this(new TreeMap<>());
+    this(new TreeMap<Character,DawgNode>());
   }
 
   public DawgNode(Map<Character,DawgNode> edges) {

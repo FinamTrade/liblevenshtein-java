@@ -40,10 +40,10 @@ public class SortedDawg extends Dawg {
   private static final long serialVersionUID = 1L;
 
   /** Transitions that have not been checked for redundancy. */
-  private Deque<Transition> uncheckedTransitions = new ArrayDeque<>();
+  private Deque<Transition> uncheckedTransitions = new ArrayDeque<Transition>();
 
   /** Nodes that have been checked for redundancy. */
-  private Map<DawgNode, DawgNode> minimizedNodes = new HashMap<>();
+  private Map<DawgNode, DawgNode> minimizedNodes = new HashMap<DawgNode, DawgNode>();
 
   /** References the term that was last added. */
   private String previousTerm = "";

@@ -7,7 +7,6 @@ import com.github.liblevenshtein.transducer.factory.TransducerBuilder;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.net.URL;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -29,9 +28,7 @@ public class TranspositionTransducerTest {
 
   @BeforeTest
   public void setUp() throws Exception {
-    final URL dictionaryUrl =
-      getClass().getResource("/programming-languages.txt");
-    final List<String> words = ReadLines.fromURL(dictionaryUrl);
+    final List<String> words = ReadLines.fromResources("programming-languages.txt");
     final SortedDawg dictionary = new SortedDawg();
     dictionary.addAll(words);
     dictionary.finish();
@@ -42,7 +39,7 @@ public class TranspositionTransducerTest {
       .dictionary(dictionary)
       .build();
 
-    this.expectedCandidates = new HashSet<>();
+    this.expectedCandidates = new HashSet<Candidate>();
     expectedCandidates.add(new Candidate("Java", 1));
     expectedCandidates.add(new Candidate("Lava", 2));
     expectedCandidates.add(new Candidate("Ada", 3));

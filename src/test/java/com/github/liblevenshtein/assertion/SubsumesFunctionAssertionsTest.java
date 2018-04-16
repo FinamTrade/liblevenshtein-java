@@ -15,13 +15,13 @@ public class SubsumesFunctionAssertionsTest {
 
   private static final int TERM_LENGTH = 4;
 
-  private final ThreadLocal<SubsumesFunction> standardSubsumes = new ThreadLocal<>();
+  private final ThreadLocal<SubsumesFunction> standardSubsumes = new ThreadLocal<SubsumesFunction>();
 
-  private final ThreadLocal<SubsumesFunction> specialSubsumes = new ThreadLocal<>();
+  private final ThreadLocal<SubsumesFunction> specialSubsumes = new ThreadLocal<SubsumesFunction>();
 
-  private final ThreadLocal<Position> lhs = new ThreadLocal<>();
+  private final ThreadLocal<Position> lhs = new ThreadLocal<Position>();
 
-  private final ThreadLocal<Position> rhs = new ThreadLocal<>();
+  private final ThreadLocal<Position> rhs = new ThreadLocal<Position>();
 
   @BeforeMethod
   public void setUp() {

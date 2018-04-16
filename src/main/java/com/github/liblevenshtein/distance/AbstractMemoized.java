@@ -25,7 +25,7 @@ public abstract class AbstractMemoized implements IDistance<String>, Serializabl
    * Initializes the memoization map, etc.
    */
   public AbstractMemoized() {
-    memo = new HashMap<>();
+    memo = new HashMap<SymmetricImmutablePair<String>,Integer>();
   }
 
   /**

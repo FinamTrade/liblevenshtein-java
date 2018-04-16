@@ -13,9 +13,9 @@ import static com.github.liblevenshtein.assertion.DistanceFunctionAssertions.ass
 
 public class DistanceFunctionAssertionsTest {
 
-  private final ThreadLocal<DistanceFunction> distance = new ThreadLocal<>();
+  private final ThreadLocal<DistanceFunction> distance = new ThreadLocal<DistanceFunction>();
 
-  private final ThreadLocal<State> state = new ThreadLocal<>();
+  private final ThreadLocal<State> state = new ThreadLocal<State>();
 
   @BeforeMethod
   public void setUp() {

@@ -141,7 +141,7 @@ public class TransducerBuilder implements Serializable {
         .algorithm(algorithm)
         .includeDistance(includeDistance);
 
-    return new Transducer<>(attributes);
+    return new Transducer<DawgNode, CandidateType>(attributes);
   }
 
   /**

@@ -1,6 +1,7 @@
 package com.github.liblevenshtein.transducer;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
@@ -44,12 +45,15 @@ public class StateTransitionFunctionTest {
 
     unsubsume.subsumes(subsumes);
 
-    transition.comparator((a, b) -> {
-      final int i = a.numErrors() - b.numErrors();
-      if (0 != i) {
-        return i;
+    transition.comparator(new Comparator<Position>() {
+      @Override
+      public int compare(Position a, Position b) {
+        final int i = a.numErrors() - b.numErrors();
+        if (0 != i) {
+          return i;
+        }
+        return a.termIndex() - b.termIndex();
       }
-      return a.termIndex() - b.termIndex();
     });
 
     transition.stateFactory(stateFactory);
